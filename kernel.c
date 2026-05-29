@@ -115,6 +115,7 @@ void handle_command(const char* input) {
         terminal_print("  clear - Clear the screen\n");
         terminal_print("  hello - Say hello\n");
         terminal_print("  info  - Show system info\n");
+        terminal_print("  echo  - Print text to the console");
         terminal_print("\n> ");
     }
     else if (input[0] == 'c' && input[1] == 'l' && input[2] == 'e' && input[3] == 'a' && input[4] == 'r') {
@@ -125,9 +126,28 @@ void handle_command(const char* input) {
         terminal_print("\nHello from FroggyOS!\n\n> ");
     }
     else if (input[0] == 'i' && input[1] == 'n' && input[2] == 'f' && input[3] == 'o') {
-        terminal_print("\nFroggyOS - Simple C OS\n");
-        terminal_print("Running in 32-bit protected mode\n");
+        terminal_print("\nFroggyOS - Alpha v1.2\n");
         terminal_print("VGA Text Mode: 80x25\n\n> ");
+    }
+    else if (input[0] == 'e' && input[1] == 'c' && input[2] == 'h' && input[3] == 'o') {
+        // Skip "echo" and any spaces
+        int i = 4;
+        while (input[i] == ' ') {
+            i++;
+        }
+        
+        if (input[i] == '\0') {
+            terminal_print("\nUsage: echo <message>\n");
+            terminal_print("Example: echo Hello World!\n\n> ");
+        } else {
+            terminal_print("\n");
+            // Print everything after "echo "
+            while (input[i] != '\0') {
+                terminal_putchar(input[i]);
+                i++;
+            }
+            terminal_print("\n\n> ");
+        }
     }
     else {
         terminal_print("\nUnknown command. Type 'help' for available commands.\n\n> ");
