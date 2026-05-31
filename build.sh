@@ -3,11 +3,14 @@
 # Assemble boot.s
 as --32 boot.s -o boot.o
 
-# Compile kernel.c (comment out the #error if it exists)
+# Compile all C files
 gcc -m32 -c kernel.c -o kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+gcc -m32 -c terminal.c -o terminal.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+gcc -m32 -c keyboard.c -o keyboard.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+gcc -m32 -c commands.c -o commands.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
-# Link the kernel
-ld -m elf_i386 -T linker.ld -o kernel.bin boot.o kernel.o
+# Link the kernel with all object files
+ld -m elf_i386 -T linker.ld -o kernel.bin boot.o kernel.o terminal.o keyboard.o commands.o
 
 # Check if multiboot compliant
 if grub-file --is-x86-multiboot kernel.bin; then
